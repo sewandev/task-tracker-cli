@@ -4,6 +4,9 @@ import datetime
 
 def handle_task_action():
     command = get_user_input()
+    
+    if not command.startswith(("add", "update", "delete", "list", "mark")):
+        display_message("Invalid command. Use: add, update, delete, list.")
 
     if command.startswith("add"):
         description = command.split(" ", 1)[1]
@@ -22,7 +25,7 @@ def handle_task_action():
     elif command.startswith("update"):
         parts = command.split(" ", 2)
         task_id = int(parts[1])
-        description = parts[2]
+        description = parts[2] # Bug: "IndexError: list index out of range". When i put "update 1" without a description, the program fails and close it.
         tasks = load_tasks()
         task = next((t for t in tasks if t["id"] == task_id), None)
         if task:
@@ -34,7 +37,7 @@ def handle_task_action():
             display_message("Task ID not found.")
 
     elif command.startswith("delete"):
-        task_id = int(command.split(" ")[1])
+        task_id = int(command.split(" ")[1]) # Bug: "IndexError: list index out of range". When i put "delete" without a description, the program fails and close it.
         if delete_task(task_id):
             display_message("Task deleted.")
         else:

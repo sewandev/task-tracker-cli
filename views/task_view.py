@@ -6,7 +6,7 @@ def display_message(message: str) -> None:
 
 def show_tasks(tasks: list) -> None:
     if tasks:
-        from json import dumps
-        print(dumps(tasks, indent=4))
+        for task in tasks:
+            print(f"ID: {task['id']} | Desc: {task['description']} | Status: {task['status']} | Created: {task['createdAt']} | Updated: {task['updatedAt']}")
     else:
         print("No tasks available.")
