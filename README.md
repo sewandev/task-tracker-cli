@@ -31,8 +31,8 @@ Ensure you have the following installed on your system:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/sewandev/Roadmap.sh.git
-   cd Roadmap.sh/Begginer/TaskTracker
+   git clone https://github.com/sewandev/task-tracker-cli
+   cd task-tracker-cli
    ```
 
 2. Execute from console:
@@ -88,7 +88,7 @@ project-root/
 │   ├── task_model.py
 │-- views/
 │   ├── task_view.py
-│-- main.py
+│-- task-cli.py
 │-- README.md
 ```
 
