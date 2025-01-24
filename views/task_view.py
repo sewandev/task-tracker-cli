@@ -1,25 +1,33 @@
 from validators.validators import validate_alphanumeric
 
 def get_user_input() -> str:
-    while True:
-        _input = input("\nInput a task (use 'help' for all command list):\n").strip()
-        if not _input:
-            print("Input cannot be empty. Please try again.")
-        elif not validate_alphanumeric(_input):
-            print("Invalid command. Special characters are not allowed.")
-        else:
-            return _input.lower()
+    try:
+        while True:
+            _input = input("\nInput a task (use 'help' for all command list):\n").strip()
+            if not _input:
+                print("Input cannot be empty. Please try again.")
+            elif not validate_alphanumeric(_input):
+                print("Invalid command. Special characters are not allowed.")
+            else:
+                return _input.lower()
+    except KeyboardInterrupt:
+        display_message("Input interrupted. Exiting...")
+        exit()
 
 def want_continue() -> bool:
-    while True:
-        _input = input("\nDo you want to continue? (y/n): ").strip().lower()
-        if _input == 'y':
-            return True
-        elif _input == 'n':
-            display_message("Exiting app ...")
-            return False
-        else:
-            display_message("Invalid input. Please enter 'y' for yes or 'n' for no.")
+    try:
+        while True:
+            _input = input("\nDo you want to continue? (y/n): ").strip().lower()
+            if _input == 'y':
+                return True
+            elif _input == 'n':
+                display_message("Exiting app ...")
+                return False
+            else:
+                display_message("Invalid input. Please enter 'y' for yes or 'n' for no.")
+    except KeyboardInterrupt:
+        display_message("Exiting app...")
+        exit()
                 
 def display_message(message: str) -> None:
     print(message)

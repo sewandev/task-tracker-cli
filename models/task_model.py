@@ -6,15 +6,25 @@ DATA_FOLDER = "data"
 FILE_PATH = os.path.join(DATA_FOLDER, "tasks.json")
 
 def load_tasks() -> List[Dict[str, Any]]:
-    if os.path.exists(FILE_PATH):
-        with open(FILE_PATH, "r") as file:
-            return json.load(file)
+    try:
+        if os.path.exists(FILE_PATH):
+            with open(FILE_PATH, "r") as file:
+                return json.load(file)
+    except json.JSONDecodeError:
+        print(f"Error: {FILE_PATH} contains corrupted data. Initializing empty array.")
+        return []
+    except IOError as e:
+        print(f"Error I/O to try read {FILE_PATH}: {e}")
+        return []
     return []
 
 def save_tasks(tasks: List[Dict[str, Any]]) -> None:
-    os.makedirs(DATA_FOLDER, exist_ok=True)
-    with open(FILE_PATH, "w") as file:
-        json.dump(tasks, file, indent=4)
+    try:
+        os.makedirs(DATA_FOLDER, exist_ok=True)
+        with open(FILE_PATH, "w") as file:
+            json.dump(tasks, file, indent=4)
+    except IOError as e:
+        print(f"Error al guardar las tareas: {e}")
 
 def add_task(task: Dict[str, Any]) -> None:
     tasks = load_tasks()
