@@ -2,7 +2,7 @@ import re
 
 def validate_alphanumeric(input: str) -> bool:
     try:
-        pattern = r'^[a-zA-Z0-9\s]+$'
+        pattern = r'^[a-zA-Z0-9\s\-]+$'
         if re.match(pattern, input):
             return True
         return False

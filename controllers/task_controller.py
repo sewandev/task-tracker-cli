@@ -18,19 +18,34 @@ def _add_task(description: str):
     display_message(f"Task '{description}' added.")
 
 def _update_task(arguments: list):
-    if len(arguments) > 2 and validate_task_id(arguments[1]):
-        arguments = arguments.split(" ", 2)
-        task_id = int(arguments[1])
-        description = arguments[2] 
-        tasks = load_tasks()
-        task = next((t for t in tasks if t["id"] == task_id), None)
-        if task:
-            task["description"] = description
-            task["updatedAt"] = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-            update_task(task)
-            display_message("Task updated.")
-        else:
-            display_message("Task ID not found.")
+    arguments = arguments.split(" ", 2)
+    if len(arguments) < 2 or not validate_task_id(arguments[1]):
+        display_message("Invalid argument.")
+        return
+
+    task_id = int(arguments[1])
+    tasks = load_tasks()
+    task = next((t for t in tasks if t["id"] == task_id), None)
+
+    if not task:
+        display_message("Task ID not found.")
+        return
+
+    if len(arguments) > 2:  # Update description
+        new_description = arguments[2]
+        task["description"] = new_description
+        task["updatedAt"] = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        update_task(task)
+        display_message(f"Task {task_id} was updated with a new description: {new_description}.")
+    elif arguments[0] in ("mark-in-progress", "mark-done"):  # Update status
+        new_status = "in-progress" if arguments[0] == "mark-in-progress" else "done"
+        task["status"] = new_status
+        task["updatedAt"] = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        update_task(task)
+        display_message(f"Task {task_id} was updated with a new status: {new_status}.")
+    else:
+        display_message("Invalid argument.")
+
 
 def _delete_task(argument: str):
     task_id = validate_task_id(argument.split(" ")[1])
@@ -40,12 +55,28 @@ def _delete_task(argument: str):
     else:
         display_message("Task ID not found.")
 
+def _list_tasks(command: str):
+    tasks = load_tasks()
+     # Determine if exist a filter in the command
+    if " " in command:
+        _, status_filter = command.split(" ", 1)
+        status_filter = status_filter.strip().lower()
+        valid_statuses = {"done", "in-progress", "todo"}
+        
+        if status_filter in valid_statuses:
+            # Filter by status
+            tasks = [task for task in tasks if task["status"] == status_filter]
+        else:
+            display_message(f"Invalid status filter: '{status_filter}'. Use: done, in-progress, or todo.")
+            return
+    show_tasks(tasks)
+
 def handle_task_action():
     try:
         command = get_user_input()
 
         if not command.startswith(("add", "update", "delete", "list", "exit", "help")):
-            pass # Se dirigirá directamente al else con un mensaje de error. No se hace aqui para evitar imprimir dos mensajes iguales
+            pass
 
         arguments = True if len(command.split()) > 1 else False
 
@@ -58,9 +89,11 @@ def handle_task_action():
         elif command.startswith("delete") and arguments:
             _delete_task(command)
 
-        elif command.startswith("list") and not arguments:
-            tasks = load_tasks()
-            show_tasks(tasks)
+        elif command.startswith("list"):
+            _list_tasks(command)
+
+        elif command.startswith(("mark-in-progress", "mark-done")) and arguments:
+            _update_task(command)
 
         elif command.startswith("help") and not arguments:
             show_command_help()

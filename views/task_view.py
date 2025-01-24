@@ -44,6 +44,8 @@ def show_command_help() -> None:
         "add <description>": "Create a new task.",
         "update <id> <description>": "Update an existing task.",
         "delete <id>": "Delete an existing task.",
+        "mark-in-progress <id> Update an existing task with status in-progress"
+        "mark-done <id> Update an existing task with status done"
         "list": "List all tasks.",
         "exit": "Leave the program."
     }
