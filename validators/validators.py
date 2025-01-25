@@ -1,13 +1,13 @@
 import re
 
-def validate_alphanumeric(input: str) -> bool:
+def is_valid_alphanumeric(input_text: str) -> bool:
     try:
-        pattern = r'^[a-zA-Z0-9\s\-]+$'
-        if re.match(pattern, input):
+        alphanumeric_pattern  = r'^[a-zA-Z0-9\s\-]+$'
+        if re.match(alphanumeric_pattern , input_text):
             return True
         return False
-    except TypeError as e:
-        print(f"Error validating input: {e}")
+    except TypeError as error:
+        print(f"Error validating input: {error}")
         return False
 
 def validate_task_id(task_id: str) -> bool:

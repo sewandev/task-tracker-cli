@@ -40,8 +40,8 @@ def update_task(updated_task: Dict[str, Any]) -> bool:
             return True
     return False
 
-def delete_task(task_id: int) -> bool:
-    tasks = load_tasks()
-    tasks = [task for task in tasks if task["id"] != task_id]
-    save_tasks(tasks)
+def delete_task_by_id(task_id: int) -> bool:
+    tasks_list = load_tasks()
+    filtered_tasks = [task for task in tasks_list if task["id"] != task_id]
+    save_tasks(filtered_tasks)
     return True

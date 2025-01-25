@@ -1,23 +1,23 @@
-from models.task_model import load_tasks, add_task, update_task, delete_task
-from views.task_view import get_user_input, display_message, show_tasks, show_command_help, want_continue
+from models.task_model import load_tasks, add_task, update_task, delete_task_by_id
+from views.task_view import get_user_input, display_message, display_tasks, display_command_help, confirm_continue
 from validators.validators import validate_task_id
 import datetime
 
-def _add_task(description: str):
-    description = description.split(" ", 1)[1]
-    tasks = load_tasks()
-    new_id = max((task["id"] for task in tasks), default=0) + 1
+def _process_add_task(user_input: str):
+    task_description = user_input.split(" ", 1)[1]
+    tasks_list = load_tasks()
+    new_task_id = max((task["id"] for task in tasks_list), default=0) + 1
     new_task = {
-        "id": new_id,
-        "description": description,
+        "id": new_task_id,
+        "description": task_description,
         "status": "todo",
         "createdAt": datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
         "updatedAt": "Not updated yet"
     }
     add_task(new_task)
-    display_message(f"Task '{description}' added.")
+    display_message(f"Task ID: {new_task_id} '{task_description}' added.")
 
-def _update_task(arguments: list):
+def _process_update_task(arguments: list):
     arguments = arguments.split(" ", 2)
     if len(arguments) < 2 or not validate_task_id(arguments[1]):
         display_message("Invalid argument.")
@@ -46,59 +46,60 @@ def _update_task(arguments: list):
     else:
         display_message("Invalid argument.")
 
-
-def _delete_task(argument: str):
+def _process_delete_task(argument: str):
     task_id = validate_task_id(argument.split(" ")[1])
     task_id = int(task_id)
-    if delete_task(task_id):
+    if delete_task_by_id(task_id):
         display_message("Task deleted.")
     else:
         display_message("Task ID not found.")
 
-def _list_tasks(command: str):
-    tasks = load_tasks()
-     # Determine if exist a filter in the command
-    if " " in command:
-        _, status_filter = command.split(" ", 1)
+def _process_list_tasks(user_command: str):
+    tasks_list = load_tasks()
+    # Determine if a filter exists in the command
+    if " " in user_command:
+        _, status_filter = user_command.split(" ", 1)
         status_filter = status_filter.strip().lower()
         valid_statuses = {"done", "in-progress", "todo"}
         
         if status_filter in valid_statuses:
-            # Filter by status
-            tasks = [task for task in tasks if task["status"] == status_filter]
+            # Filter tasks by status
+            filtered_tasks = [task for task in tasks_list if task["status"] == status_filter]
+            display_tasks(filtered_tasks)
         else:
             display_message(f"Invalid status filter: '{status_filter}'. Use: done, in-progress, or todo.")
-            return
-    show_tasks(tasks)
+    else:
+        display_tasks(tasks_list)
 
-def handle_task_action():
+
+def process_command():
     try:
-        command = get_user_input()
+        user_command = get_user_input()
 
-        if not command.startswith(("add", "update", "delete", "list", "exit", "help")):
+        if not user_command.startswith(("add", "update", "delete", "list", "exit", "help")):
             pass
 
-        arguments = True if len(command.split()) > 1 else False
+        has_arguments = True if len(user_command.split()) > 1 else False
 
-        if command.startswith("add") and arguments:
-            _add_task(command)
+        if user_command.startswith("add") and has_arguments:
+            _process_add_task(user_command)
 
-        elif command.startswith("update") and arguments:
-            _update_task(command) 
+        elif user_command.startswith("update") and has_arguments:
+            _process_update_task(user_command) 
 
-        elif command.startswith("delete") and arguments:
-            _delete_task(command)
+        elif user_command.startswith("delete") and has_arguments:
+            _process_delete_task(user_command)
 
-        elif command.startswith("list"):
-            _list_tasks(command)
+        elif user_command.startswith("list"):
+            _process_list_tasks(user_command)
 
-        elif command.startswith(("mark-in-progress", "mark-done")) and arguments:
-            _update_task(command)
+        elif user_command.startswith(("mark-in-progress", "mark-done")) and has_arguments:
+            _process_update_task(user_command)
 
-        elif command.startswith("help") and not arguments:
-            show_command_help()
+        elif user_command.startswith("help") and not has_arguments:
+            display_command_help()
 
-        elif command.startswith("exit") and not arguments:
+        elif user_command.startswith("exit") and not has_arguments:
             exit()
         
         else:
@@ -106,10 +107,10 @@ def handle_task_action():
     except KeyboardInterrupt:
         display_message("Exiting app...")
         exit()
-    except Exception as e:
-        display_message(f"Unexpected error: {e}")
+    except Exception as error:
+        display_message(f"Unexpected error: {error}")
 
 def run():
     while True:
-        handle_task_action()
-        exit() if not want_continue() else True
+        process_command()
+        exit() if not confirm_continue() else True
