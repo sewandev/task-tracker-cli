@@ -1,110 +1,61 @@
-# Task Tracker CLI
+# Task Manager CLI
+
+![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+
+A simple **Command Line Interface (CLI)** Task Manager built with Python. This project is part of the challenge [Task Tracker CLI](https://roadmap.sh/projects/task-tracker) from roadmap.sh.
 
 ## Overview
-Task Tracker CLI is a command-line application that helps users manage tasks efficiently. This project allows users to add, update, delete, and list tasks, offering a simple way to track ongoing activities using Python. The project follows an MVC (Model-View-Controller) architecture for better code organization and maintainability.
 
-Tasks are stored in a JSON file and can have different statuses such as `todo`, `in-progress`, and `done`. Users can interact with the application via command-line commands, making it a lightweight and effective solution for task management.
+The **Task Manager CLI** is a Python-based application that allows users to manage tasks from the command line. It follows the **Model-View-Controller (MVC)** architecture, ensuring a clean separation of concerns and making the codebase maintainable and scalable.
 
-Source Challenge [Roadmap.sh](https://roadmap.sh/projects/task-tracker)
+This project is designed to help users:
+- Create, update, and delete tasks.
+- Mark tasks as "todo," "in-progress," or "done."
+- List tasks with optional status filtering.
 
 ---
 
 ## Features
 
-- Add new tasks with descriptions.
-- Update existing tasks.
-- Mark tasks as `in-progress` or `done`.
-- Delete tasks by ID.
-- List tasks by status or view all tasks.
-
----
-
-## Prerequisites
-
-Ensure you have the following installed on your system:
-
-- Python 3.8 or higher
+- **Add Tasks**: Create new tasks with a description.
+- **Update Tasks**: Modify the description or status of existing tasks.
+- **Delete Tasks**: Remove tasks by their ID.
+- **List Tasks**: View all tasks or filter them by status (`todo`, `in-progress`, `done`).
+- **Interactive CLI**: User-friendly command-line interface with helpful prompts.
+- **Data Persistence**: Tasks are saved in a JSON file (`data/tasks.json`) for persistence across sessions.
 
 ---
 
 ## Installation
 
-1. Clone this repository:
+### Prerequisites
+
+- Python 3.x
+- Git (optional)
+
+### Steps
+
+1. **Clone the repository** (if you haven't already):
    ```bash
-   git clone https://github.com/sewandev/task-tracker-cli
-   cd task-tracker-cli
+   git clone https://github.com/your-username/task-manager-cli.git
+   cd task-manager-cli
    ```
 
-2. Execute from console:
+2. **Run the application**:
    ```bash
-   python task-cli.py
+   python task_cli.py
    ```
 
----
-
-### Example Usage
-
-#### Adding a new task
-```bash
-# Adds a new task with the given description.
-add Buy groceries
-```
-
-#### Updating a task description
-```bash
-# Updates the description of a task by ID.   
-update 1 "Complete the project report"
-```
-
-#### Deleting a task
-```bash
-# Deletes a task by ID.    
-delete 2
-```
-
-#### Listing all tasks
-```bash
-# Lists all tasks.
-list
-```
-
-#### Listing tasks by status
-```bash
-# Lists tasks by status (todo, in-progress, done).
-list done
-list in-progress
-list todo
-```
-
----
-
-## Project Structure
-
-```
-project-root/
-│-- controllers/
-│   ├── task_controller.py
-│-- models/
-│   ├── task_model.py
-│-- views/
-│   ├── task_view.py
-│-- task-cli.py
-│-- README.md
-```
-
-- **controllers/** - Handles application logic.
-- **models/** - Manages data and JSON file operations.
-- **views/** - Handles user interactions.
-- **task-cli.py** - The main entry point for the CLI application.
-
----
-
-## Contributing
-
-If you'd like to contribute to the project, feel free to fork the repository, create a feature branch, and submit a pull request.
-
----
-
-## License
-
-This project is licensed under the MIT License.
+**Usage**
+Available Commands
+Command	Description
+add <description>	Create a new task with the given description.
+update <id> <description>	Update the description of an existing task.
+delete <id>	Delete a task by its ID.
+mark-in-progress <id>	Mark a task as "in-progress."
+mark-done <id>	Mark a task as "done."
+list	List all tasks.
+list <status>	List tasks filtered by status (todo, in-progress, done).
+help	Display the list of available commands.
+exit	Exit the application.
