@@ -51,6 +51,8 @@ This project is designed to help users:
 ## Usage
 ### Available Commands
 **Command	Description**
+
+```bash
 - add <description>	Create a new task with the given description.
 - update <id> <description>	Update the description of an existing task.
 - delete <id>	Delete a task by its ID.
@@ -60,3 +62,4 @@ This project is designed to help users:
 - list <status>	List tasks filtered by status (todo, in-progress, done).
 - help	Display the list of available commands.
 - exit	Exit the application.
+```
