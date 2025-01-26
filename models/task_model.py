@@ -27,7 +27,7 @@ def save_tasks(tasks: List[Dict[str, Any]]) -> None:
         os.makedirs(DATA_FOLDER, exist_ok=True)
         with open(TASKS_FILE_PATH, "w") as file:
             json.dump(tasks, file, indent=4)
-    except IOError as e:
+    except IOError as error:
         print(f"Error saving tasks: {error}")
 
 def add_task(task: Dict[str, Any]) -> None:
