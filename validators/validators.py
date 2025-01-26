@@ -3,6 +3,9 @@ import re
 def is_valid_alphanumeric(input_text: str) -> bool:
     """Validates if the input text contains only alphanumeric characters, spaces, or hyphens."""
 
+    if input_text is None:
+        return False
+    
     try:
         alphanumeric_pattern = r'^[a-zA-Z0-9\s\-]+$'
         return bool(re.match(alphanumeric_pattern, input_text))
@@ -34,4 +37,4 @@ def validate_task_status(status: str) -> bool:
     """Validates if the given status is one of the valid statuses."""
     
     valid_statuses = {"todo", "in-progress", "done"}
-    return status in valid_statuses
+    return status.lower() in valid_statuses

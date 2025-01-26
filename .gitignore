@@ -6,5 +6,7 @@ pip-log.txt
 pip-delete-this-directory.txt
 # Data / tasks.json
 data/
-#.vscode
+# .vscode
 .vscode/
+# Logs
+app.log

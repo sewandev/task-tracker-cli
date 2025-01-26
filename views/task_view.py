@@ -3,11 +3,11 @@ from validators.validators import is_valid_alphanumeric
 def get_user_input() -> str:
     try:
         while True:
-            user_input = input("\nInput a task (use 'help' for all command list):\n").strip()
+            user_input = input("\nEnter a task (use 'help' for the command list):\n").strip()
             if not user_input:
-                print("Input cannot be empty. Please try again.")
+                display_message("Input cannot be empty. Please try again.")
             elif not is_valid_alphanumeric(user_input):
-                print("Invalid command. Special characters are not allowed.")
+                display_message("Invalid input. Only alphanumeric characters, spaces, and hyphens are allowed.")
             else:
                 return user_input.lower()
     except KeyboardInterrupt:
