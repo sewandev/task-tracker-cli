@@ -46,16 +46,17 @@ This project is designed to help users:
    ```bash
    python task_cli.py
    ```
+---
 
-**Usage**
-Available Commands
-Command	Description
-add <description>	Create a new task with the given description.
-update <id> <description>	Update the description of an existing task.
-delete <id>	Delete a task by its ID.
-mark-in-progress <id>	Mark a task as "in-progress."
-mark-done <id>	Mark a task as "done."
-list	List all tasks.
-list <status>	List tasks filtered by status (todo, in-progress, done).
-help	Display the list of available commands.
-exit	Exit the application.
+## Usage
+### Available Commands
+**Command	Description**
+- add <description>	Create a new task with the given description.
+- update <id> <description>	Update the description of an existing task.
+- delete <id>	Delete a task by its ID.
+- mark-in-progress <id>	Mark a task as "in-progress."
+- mark-done <id>	Mark a task as "done."
+- list	List all tasks.
+- list <status>	List tasks filtered by status (todo, in-progress, done).
+- help	Display the list of available commands.
+- exit	Exit the application.
